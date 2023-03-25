@@ -17,6 +17,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	//initialise a slice containing the paths to our two files with the base template as the first
 	files := []string{
 		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
 		"./ui/html/pages/home.tmpl",
 	}
 

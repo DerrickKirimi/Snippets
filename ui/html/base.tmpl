@@ -2,13 +2,15 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <Meta charset="utf-8">
+        <meta charset="utf-8">
         <title>{{template "title" .}} - Snippetbox</title>
     </head>
     <body>
         <header>
             <hi><a href='/'>Snippetbox</a></h1>
         </header>
+        <!-- Invoke the navigation template -->
+        {{template "nav" .}}
         <main>
             {{template "main" .}}
         </main>
