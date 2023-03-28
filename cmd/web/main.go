@@ -34,7 +34,7 @@ func main() {
 	srv := &http.Server{
 		Addr:		*addr,
 		ErrorLog:	errorLog,
-		Handler: 	app.routes()
+		Handler: 	app.routes(),
 
 	}
 
