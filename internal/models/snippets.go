@@ -45,6 +45,7 @@ func (m *SnippetModel) Get (id int) (*Snippet, error){
 
 	row := m.DB.QueryRow(stmt,id)
 	//Initialise new zeroed snippet struct
+	
 	s := &Snippet{}
 
 	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
@@ -60,5 +61,35 @@ func (m *SnippetModel) Get (id int) (*Snippet, error){
 }
 
 func (m *SnippetModel) Latest() ([]*Snippet, error) {
-	return nil, nil
+
+	stmt := `SELECT id, title, content, created, expires FROM snippets
+	WHERE expires > UTC_TIMESTAMP() ORDER BY id DESC LIMIT 10`
+
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil,err
+	}
+
+	//defer is called after error check from Query to avoid tryna close a nil resultset resulting in a panic
+	//as long as resultset is open it keeps the underlying database connection open
+	defer rows.Close()
+
+	//new empty slice to hold snippets
+	snippets := []*Snippet{}
+
+	for rows.Next() {
+		s := &Snippet{}
+		err = rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+		if err != nil {
+			return nil, err
+		}
+		snippets = append(snippets, s)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+
+	return snippets, nil
 }
