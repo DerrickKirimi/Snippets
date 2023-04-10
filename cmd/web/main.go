@@ -18,7 +18,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "Http network address")
-	dsn := flag.String("dsn", "web:pass@snippetbox?parseTime=true", "MYSQL data source name")
+	dsn := flag.String("dsn", "web:pass@/snippetbox?parseTime=true", "MYSQL data source name")
 
 
 	//parse into addr variable. Terminate application on error.
