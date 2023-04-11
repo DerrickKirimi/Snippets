@@ -22,32 +22,27 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, snippet := range snippets {
-		fmt.Fprintf(w, "%+v\n", snippet)
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/pages/home.tmpl",
 	}
 
-	//ctrl+q, shift+I, //, esc*2
-	////initialise a slice containing the paths to our two files with the base template as the first
-	//files := []string{
-	//	"./ui/html/base.tmpl",
-	//	"./ui/html/partials/nav.tmpl",
-	//	"./ui/html/pages/home.tmpl",
-	//}
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
-	////Pass the files paths as a variadic template
-	////get templatesets
-	//ts, err := template.ParseFiles(files...)
-	//if err != nil {
-	//	//write error message to errorLog instead of standard logger
-	//	app.serverError(w, err)
-	//	return
-	//}
+	data := &templateData{
+		snippets: snippets,
+	}
 
+	err = ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
+		app.serverError(w, err)
+	}
 
- //err = ts.ExecuteTemplate(w, "base", nil)
-	//if err != nil {
-	//	app.serverError(w, err)
-	//}
 }
 
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
