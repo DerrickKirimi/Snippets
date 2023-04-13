@@ -4,7 +4,15 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
+
+
+func (app *application) newTemplateData (r *http.Request) *templateData {
+	return &templateData {
+		CurrentYear: time.Now().Year(),
+	}
+}
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
@@ -22,7 +30,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 func (app *application) render (w http.ResponseWriter, status int, page string, data *templateData) {
-	ts, ok := app.templateCache[page]
+	ts, ok := app.templateCache[page] //Find the page in the map
 	if !ok {
 		err := fmt.Errorf("the template %s does not exist", page)
 		app.serverError(w, err)
