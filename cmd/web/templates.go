@@ -1,16 +1,19 @@
 package main
+
 import (
-	"github.com/DerrickKirimi/Snippets/internal/models"
 	"html/template"
 	"path/filepath"
 	"time"
+
+	"github.com/DerrickKirimi/Snippets/internal/models"
 )
 
 type templateData struct {
 	CurrentYear int
-	Snippet 	*models.Snippet
-	Snippets 	[]*models.Snippet
-	Form 		any
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
+	Form        any
+	Flash       string
 }
 
 func humanDate(t time.Time) string {
@@ -34,7 +37,6 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		//extract base name like home.tmpl to name variable
 		name := filepath.Base(page)
 
-		
 		ts, err := template.New(name).Funcs(functions).ParseFiles("./ui/html/base.tmpl")
 		if err != nil {
 			return nil, err
