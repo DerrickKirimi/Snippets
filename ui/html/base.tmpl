@@ -16,7 +16,7 @@
         </header>
         {{template "nav" .}}
         <main>
-            {{with .Flash}}
+            {{if .Flash}}
                 <div class='flash'>{{.}}</div>
             {{end}}
             {{template "main" .}}
