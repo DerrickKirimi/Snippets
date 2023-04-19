@@ -34,7 +34,7 @@ func (m *UserModel) Insert (name, email, password string) error {
 _, err = m.DB.Exec(stmt, name, email, string(hashedPassword))
 if err != nil {
 	var mySQLError *mysql.MySQLError
-	if errors.As(err, mySQLError) {
+	if errors.As(err, &mySQLError) {
 		if mySQLError.Number == 1062 && strings.Contains(mySQLError.Message, "users_uc_email") {
 			return ErrDuplicateEmail
 		}
