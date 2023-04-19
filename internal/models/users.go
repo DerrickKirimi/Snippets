@@ -27,7 +27,7 @@ func (m *UserModel) Insert (name, email, password string) error {
 		 return err
 	}
 
-	stmt := `INSERT INTO USERS (name, email, hashed_password, created)
+	stmt := `INSERT INTO users (name, email, hashed_password, created)
 	VALUES(?, ?, ?, UTC_TIMESTAMP())`
 
 
