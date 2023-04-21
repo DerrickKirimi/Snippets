@@ -11,11 +11,10 @@ import (
 	"github.com/go-playground/form/v4"
 )
 
-
-func (app *application) newTemplateData (r *http.Request) *templateData {
-	return &templateData {
-		CurrentYear:	time.Now().Year(),
-		Flash:			app.sessionManager.PopString(r.Context(), "flash"),
+func (app *application) newTemplateData(r *http.Request) *templateData {
+	return &templateData{
+		CurrentYear: time.Now().Year(),
+		Flash:       app.sessionManager.PopString(r.Context(), "flash"),
 	}
 }
 
@@ -26,7 +25,7 @@ func (app *application) serverError(w http.ResponseWriter, err error) {
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
-func (app *application) clientError(w http.ResponseWriter, status int){
+func (app *application) clientError(w http.ResponseWriter, status int) {
 	http.Error(w, http.StatusText(status), status)
 }
 
@@ -34,7 +33,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
-func (app *application) render (w http.ResponseWriter, status int, page string, data *templateData) {
+func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {
 	ts, ok := app.templateCache[page] //Find the page in the map
 	if !ok {
 		err := fmt.Errorf("the template %s does not exist", page)
@@ -43,7 +42,6 @@ func (app *application) render (w http.ResponseWriter, status int, page string, 
 	}
 
 	buf := new(bytes.Buffer)
-
 
 	//write to buffer rather than straight to http.ResponseWriter
 	err := ts.ExecuteTemplate(buf, "base", data)
@@ -58,10 +56,10 @@ func (app *application) render (w http.ResponseWriter, status int, page string, 
 	buf.WriteTo(w)
 }
 
-func (app * application) decodePostForm(r *http.Request, dst any) error {
+func (app *application) decodePostForm(r *http.Request, dst any) error {
 	err := r.ParseForm()
 	if err != nil {
-		return err 
+		return err
 	}
 
 	err = app.formDecoder.Decode(dst, r.PostForm)
