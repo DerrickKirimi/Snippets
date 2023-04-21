@@ -11,4 +11,7 @@ require (
 	github.com/justinas/alice v1.2.0
 )
 
-require golang.org/x/crypto v0.8.0 // indirect
+require (
+	github.com/justinas/nosurf v1.1.1 // indirect
+	golang.org/x/crypto v0.8.0 // indirect
+)
