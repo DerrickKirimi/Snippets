@@ -1,16 +1,16 @@
 package main
 
 import (
-	"net/http"
-	"github.com/julienschmidt/httprouter"
 	"github.com/DerrickKirimi/Snippets/ui"
+	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
+	"net/http"
 )
 
 func (app *application) routes() http.Handler {
 	router := httprouter.New()
 
-	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		app.notFound(w)
 	})
 
@@ -30,7 +30,7 @@ func (app *application) routes() http.Handler {
 	protected := dynamic.Append(app.requireAuthentication)
 	router.Handler(http.MethodGet, "/snippet/create", protected.ThenFunc(app.snippetCreate))
 	router.Handler(http.MethodPost, "/snippet/create", protected.ThenFunc(app.snippetCreatePost))
-	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogoutPost))	
+	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogoutPost))
 
 	// Create the middleware chain as normal.
 	standard := alice.New(app.recoverPanic, app.logRequest, secureHeaders)
