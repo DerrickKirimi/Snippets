@@ -11,13 +11,13 @@ import (
 )
 
 type templateData struct {
-	CurrentYear int
-	Snippet     	*models.Snippet
-	Snippets    	[]*models.Snippet
-	Form        	any
-	Flash       	string
-	IsAuthenticated	bool
-	CSRFToken		string
+	CurrentYear     int
+	Snippet         *models.Snippet
+	Snippets        []*models.Snippet
+	Form            any
+	Flash           string
+	IsAuthenticated bool
+	CSRFToken       string
 }
 
 func humanDate(t time.Time) string {
@@ -34,7 +34,7 @@ var functions = template.FuncMap{
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
 
-	pages, err := fs.Glob(ui.Files, "./ui/html/pages/*.tmpl")
+	pages, err := fs.Glob(ui.Files, "html/pages/*.tmpl")
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		//extract base name like home.tmpl to name variable
 		name := filepath.Base(page)
 
-		patterns := []string {
+		patterns := []string{
 			"html/base.tmpl",
 			"html/partials/*.tmpl",
 			page,
